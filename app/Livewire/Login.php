@@ -4,6 +4,8 @@ namespace App\Livewire;
 
 use Livewire\Attributes\Layout;
 use Livewire\Component;
+use Illuminate\Support\Facades\Auth;
+
 
 class Login extends Component
 {
@@ -18,17 +20,29 @@ class Login extends Component
 
     public function login()
     {
+        //dd($this->email, $this->password);
         $this->validate(
             [
                 'email' => 'required|email',
-                'password' => 'required|min:8'
+                'password' => 'required|min:8',
             ],
             [
                 'email.required' => 'O campo de email precisa ser preenchido!',
-                'password.min' => 'A senha precisa no mínimo de 8 caracters'
+                'email.email' => 'Informe um email válido!',
+                'password.required' => 'A senha é obrigatória!',
+                'password.min' => 'A senha precisa no mínimo de 8 caracteres!',
             ]
         );
 
+        if (Auth::attempt([
+            'email' => $this->email,
+            'password' => $this->password,
+        ])) {
+            return redirect()
+                ->route('dashboard.index')
+                ->with('toast', 'Login realizado com sucesso!');
+        }
 
+        $this->addError('email', 'Credenciais inválidas.');
     }
 }

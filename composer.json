@@ -9,9 +9,10 @@
         "php": "^8.2",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
-        "livewire/livewire": "^3.6"
+        "livewire/livewire": "4.0"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.16",
         "fakerphp/faker": "^1.23",
         "laravel/pail": "^1.2.2",
         "laravel/pint": "^1.13",
@@ -34,10 +35,8 @@
     },
     "scripts": {
         "post-autoload-dump": [
-            "@php artisan config:clear",
-            "@php artisan clear-compiled",
-            "@php artisan package:discover --ansi"
-        ],
+    "@php artisan package:discover --ansi"
+],
         "post-update-cmd": [
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
         ],

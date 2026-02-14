@@ -2,8 +2,8 @@
     <div class="w-full max-w-md bg-white p-8 rounded-2xl shadow-xl border border-gray-100">
 
         <div class="text-center mb-8">
-            <h2 class="text-3xl font-extrabold text-gray-900">Bem-vindo de volta</h2>
-            <p class="text-gray-500 mt-2">Acesse sua conta para continuar</p>
+            <h2 class="text-3xl font-extrabold text-gray-900">Criar Conta</h2>
+            <p class="text-gray-500 mt-2">Preencha os dados para começar</p>
         </div>
 
         @if($errors->any())
@@ -24,10 +24,16 @@
         </div>
         @endif
 
-        <form wire:submit.prevent="login" class="space-y-6">
+        <form wire:submit.prevent="register" class="space-y-5">
+            <div>
+                <label for="name" class="block text-sm font-semibold text-gray-700 mb-1">Nome Completo</label>
+                <input type="text" id="name" wire:model="name" placeholder="Nome"
+                    class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition duration-200 bg-gray-50 focus:bg-white">
+            </div>
+
             <div>
                 <label for="email" class="block text-sm font-semibold text-gray-700 mb-1">E-mail</label>
-                <input type="email" id="email" wire:model="email"
+                <input type="email" id="email" wire:model="email" placeholder="E-mail"
                     class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition duration-200 bg-gray-50 focus:bg-white">
             </div>
 
@@ -37,7 +43,7 @@
                 </label>
 
                 <div class="relative">
-                    <input type="password" id="password" wire:model.defer="password" class="w-full px-4 py-2.5 pr-10 rounded-lg border border-gray-300
+                    <input type="password" id="password" wire:model.defer="password" placeholder="••••••••" class="w-full px-4 py-2.5 pr-10 rounded-lg border border-gray-300
                    focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500
                    outline-none transition duration-200 bg-gray-50 focus:bg-white">
 
@@ -45,23 +51,47 @@
                    text-gray-400 hover:text-indigo-600" aria-label="Mostrar ou ocultar senha">
                         <i id="eyeIcon" class="fa-solid fa-eye"></i>
                     </button>
-                    <div class="float-right mb-3 text-sm text-gray-600">
-                        <a href="{{ route('password.request') }}">Esqueceu a senha?</a>
-                    </div>
                 </div>
             </div>
 
+            <button
+    type="submit"
+    wire:loading.attr="disabled"
+    class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-lg shadow-lg hover:shadow-indigo-200 transition-all duration-200 transform active:scale-95 flex items-center justify-center"
+>
+    {{-- Estado normal --}}
+    <span wire:loading.remove wire:target="register" class="flex items-center">
+        Finalizar Cadastro
+        <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+        </svg>
+    </span>
+
+    {{-- Loading (lado a lado) --}}
+    <span
+        wire:loading
+        wire:target="register"
+        class="flex items-center gap-2"
+    >
+        <svg class="animate-spin h-5 w-5 text-white" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10"
+                    stroke="currentColor" stroke-width="4" fill="none"/>
+            <path class="opacity-75" fill="currentColor"
+                  d="M4 12a8 8 0 018-8v8z"/>
+        </svg>
+        Criando conta...
+    </span>
+</button>
 
 
-            <button type="submit"
-                class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-lg shadow-lg hover:shadow-indigo-200 transition-all duration-200 transform active:scale-95 flex items-center justify-center">
-                Entrar na Conta
-            </button>
         </form>
 
         <p class="text-center text-sm text-gray-600 mt-8">
-            Não tem uma conta?
-            <a href="{{ route('register.auth')}}" class="font-bold text-indigo-600 hover:text-indigo-500 underline decoration-2 underline-offset-4" wire:navigate>Cadastre-se</a>
+            Já tem uma conta?
+            <a href="{{ route('login.auth') }}"
+                class="font-bold text-indigo-600 hover:text-indigo-500 underline decoration-2 underline-offset-4"
+                wire:navigate>Login</a>
         </p>
     </div>
 

@@ -12,5 +12,13 @@ class Tarefa extends Model
     protected $fillable = [
         'description',
         'is_completed',
+        'name',
+        'user_id',
+        'expiration_date',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Livewire;
 
 use App\Models\Tarefa;
@@ -7,53 +6,41 @@ use Livewire\Component;
 
 class EditarTarefa extends Component
 {
-    public $taskId;
-    public $description;
-    public $is_completed;
+    public Tarefa $task;
 
-    public function render()
-    {
-        return view('livewire.editar-tarefa');
-    }
+    public string $description;
+    public bool $is_completed;
+    public $name;
 
     public function mount($tarefa)
     {
-        $task = Tarefa::findOrFail($tarefa);
+        $this->task = Tarefa::findOrFail($tarefa);
 
-        $this->taskId = $task->id;
-        $this->description = $task->description;
-        $this->is_completed = $task->is_completed;
+        $this->name = $this->task->name;
+        $this->description = $this->task->description;
+        $this->is_completed = (bool) $this->task->is_completed;
     }
 
     public function updateTask()
     {
-        /*  $this->validate([
-        'description' => 'required|min:3',
-    ],
-    [
-
-        'description.min' => 'A descrição deve ter pelo menos 3 caracteres.',
-    ]); */
-
-        $this->validate(
-            [
-                'description' => 'required|min:3',
-            ],
-            [
-                'description.required' => 'o campo descrição é obrigatório!',
-                'description.min' => 'o campo descrição precisa no minimo 3 caracters!'
-            ]
-        );
-
-        $task = Tarefa::findOrFail($this->taskId);
-
-        $task->update([
-            'description' => $this->description,
-            'is_completed' => (bool) $this->is_completed,
+        $this->validate([
+            'name' => 'required|min:3',
+            'description' => 'required|min:3',
         ]);
 
-        session()->flash('toast', 'Tarefa atualizada com sucesso!');
+        $this->task->update([
+            'name' => $this->name,
+            'description' => $this->description,
+            'is_completed' => $this->is_completed,
+        ]);
+
+        $this->dispatch('notify', message: 'Tarefa atualizada com sucesso!');
 
         return $this->redirectRoute('tarefas.index', navigate: true);
+    }
+
+    public function render()
+    {
+        return view('livewire.editar-tarefa');
     }
 }

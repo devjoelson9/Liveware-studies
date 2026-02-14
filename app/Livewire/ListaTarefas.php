@@ -4,39 +4,28 @@ namespace App\Livewire;
 
 use App\Models\Tarefa;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class ListaTarefas extends Component
 {
-    public $tasks;
+    use WithPagination;
+
+    public function removeTask($taskId)
+    {
+        Tarefa::findOrFail($taskId)->delete();
+
+        $this->dispatch('notify', message: 'Tarefa removida com sucesso!');
+    }
 
     public function render()
     {
-        return view('livewire.lista-tarefas');
-    }
+        $user = Auth()->user();
 
-    // Carrega as tarefas ao montar o componente
-    public function mount()
-    {
-        $this->loadTasks();
-    }
+        $tasks = Tarefa::where('user_id', $user->id)->get();
+        //$tasks = Tarefa::all();
 
-    // Função para recarregar a lista
-    public function loadTasks()
-    {
-        $this->tasks = Tarefa::latest()->get();
-    }
-
-    // Remove a tarefa do banco de dados
-    public function removeTask($id)
-    {
-        $task = Tarefa::find($id);
-
-        if ($task) {
-            $task->delete();
-            session()->flash('message', 'Tarefa removida com sucesso!');
-        }
-
-        // Atualiza a lista
-        $this->loadTasks();
+        return view('livewire.lista-tarefas', [
+            'tasks' => $tasks,
+        ]);
     }
 }
