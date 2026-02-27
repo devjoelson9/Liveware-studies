@@ -27,13 +27,13 @@
         <form wire:submit.prevent="register" class="space-y-5">
             <div>
                 <label for="name" class="block text-sm font-semibold text-gray-700 mb-1">Nome Completo</label>
-                <input type="text" id="name" wire:model="name" placeholder="Nome"
+                <input type="text" id="name" wire:model="name"
                     class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition duration-200 bg-gray-50 focus:bg-white">
             </div>
 
             <div>
                 <label for="email" class="block text-sm font-semibold text-gray-700 mb-1">E-mail</label>
-                <input type="email" id="email" wire:model="email" placeholder="E-mail"
+                <input type="email" id="email" wire:model="email"
                     class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition duration-200 bg-gray-50 focus:bg-white">
             </div>
 
@@ -43,7 +43,7 @@
                 </label>
 
                 <div class="relative">
-                    <input type="password" id="password" wire:model.defer="password" placeholder="••••••••" class="w-full px-4 py-2.5 pr-10 rounded-lg border border-gray-300
+                    <input type="password" id="password" wire:model="password" class="w-full px-4 py-2.5 pr-10 rounded-lg border border-gray-300
                    focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500
                    outline-none transition duration-200 bg-gray-50 focus:bg-white">
 
@@ -54,36 +54,23 @@
                 </div>
             </div>
 
-            <button
-    type="submit"
-    wire:loading.attr="disabled"
-    class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-lg shadow-lg hover:shadow-indigo-200 transition-all duration-200 transform active:scale-95 flex items-center justify-center"
->
-    {{-- Estado normal --}}
-    <span wire:loading.remove wire:target="register" class="flex items-center">
-        Finalizar Cadastro
-        <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-        </svg>
-    </span>
+            <button type="submit" wire:loading.attr="disabled"
+                class="w-full bg-indigo-600 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2">
+                <svg wire:loading class="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"
+                        fill="none" />
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+                </svg>
 
-    {{-- Loading (lado a lado) --}}
-    <span
-        wire:loading
-        wire:target="register"
-        class="flex items-center gap-2"
-    >
-        <svg class="animate-spin h-5 w-5 text-white" viewBox="0 0 24 24">
-            <circle class="opacity-25" cx="12" cy="12" r="10"
-                    stroke="currentColor" stroke-width="4" fill="none"/>
-            <path class="opacity-75" fill="currentColor"
-                  d="M4 12a8 8 0 018-8v8z"/>
-        </svg>
-        Criando conta...
-    </span>
-</button>
-
+                <span wire:loading.remove wire:target="register" class="flex items-center">
+                    Finalizar Cadastro
+                    <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    </svg>
+                </span>
+                <span wire:loading wire:target="register">Criando conta...</span>
+            </button>
 
         </form>
 
@@ -96,7 +83,7 @@
     </div>
 
     <script>
-    function togglePassword() {
+        function togglePassword() {
         const input = document.getElementById('password');
         const icon  = document.getElementById('eyeIcon');
 

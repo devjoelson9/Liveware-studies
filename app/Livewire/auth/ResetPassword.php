@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Auth;
 
 use App\Models\User;
 use Illuminate\Auth\Events\PasswordReset;
