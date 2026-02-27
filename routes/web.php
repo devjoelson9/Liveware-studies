@@ -19,6 +19,14 @@ use App\Livewire\Caderno\CadernosShow;
 use App\Livewire\Disciplina\DisciplinaEdit;
 use App\Livewire\Disciplina\DisciplinaShow;
 use App\Livewire\Disciplina\ListaDisciplinas;
+use App\Livewire\Questao\CadastroQuestao;
+use App\Livewire\Questao\ListaQuestoes;
+use App\Livewire\Questao\QuestaoEdit;
+use App\Livewire\Simulado\CadastroSimulado;
+use App\Livewire\Simulado\ListaSimulados;
+use App\Livewire\Simulado\SimuladoEdit;
+use App\Livewire\Simulado\SimuladoResponder;
+use App\Livewire\Simulado\SimuladoShow;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -45,6 +53,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/create', CadastroDisciplina::class)->name('disciplinas.create');
             Route::get('/{disciplina}', DisciplinaShow::class)->name('disciplinas.show');
             Route::get('/{disciplina}/edit', DisciplinaEdit::class)->name('disciplinas.edit');
+            Route::prefix('/{disciplina}/questoes')->group(function () {
+                Route::get('/', ListaQuestoes::class)->name('questoes.index');
+                Route::get('/create', CadastroQuestao::class)->name('questoes.create');
+                Route::get('/{questao}/edit', QuestaoEdit::class)->name('questoes.edit');
+            });
+        });
+
+        Route::prefix('/{caderno}/simulados')->group(function(){
+            Route::get('/', ListaSimulados::class)->name('simulados.index');
+            Route::get('/create', CadastroSimulado::class)->name('simulados.create');
+            Route::get('/{simulado}', SimuladoShow::class)->name('simulados.show');
+            Route::get('/{simulado}/edit', SimuladoEdit::class)->name('simulados.edit');
+            Route::get('/{simulado}/responder', SimuladoResponder::class)->name('simulados.answer');
         });
     });
 
@@ -52,7 +73,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('/');
+        return redirect('/')->with('notify', 'Logout realizado com sucesso!');
     })->name('logout');
 });
 

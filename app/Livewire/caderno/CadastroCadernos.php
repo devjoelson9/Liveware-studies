@@ -28,6 +28,7 @@ class CadastroCadernos extends Component
             'data_prova' => $this->data_prova,
         ]);
 
+        session()->flash('notify', 'Caderno criado com sucesso!');
         return redirect()->route('cadernos.index');
     }
 

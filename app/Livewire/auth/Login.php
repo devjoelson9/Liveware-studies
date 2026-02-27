@@ -40,7 +40,7 @@ class Login extends Component
         ])) {
             return redirect()
                 ->route('dashboard.index')
-                ->with('toast', 'Login realizado com sucesso!');
+                ->with('notify', 'Login realizado com sucesso!');
         }
 
         $this->addError('email', 'Credenciais inválidas.');

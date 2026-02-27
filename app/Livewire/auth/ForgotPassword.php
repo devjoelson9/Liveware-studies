@@ -27,7 +27,7 @@ class ForgotPassword extends Component
         );
 
         return $status === Password::ResetLinkSent
-            ? back()->with(['status' => __($status)])
+            ? back()->with(['notify' => 'Link de recuperacao enviado para o seu email.'])
             : back()->withErrors(['email' => __($status)]);
     }
 }

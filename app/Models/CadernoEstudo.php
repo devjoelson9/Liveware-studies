@@ -15,9 +15,9 @@ class CadernoEstudo extends Model
     }
 
     public function simulados()
-{
-    return $this->hasMany(Simulado::class);
-}
+    {
+        return $this->hasMany(Simulado::class);
+    }
 
 
     public function user()

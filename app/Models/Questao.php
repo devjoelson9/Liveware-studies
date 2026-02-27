@@ -23,4 +23,11 @@ class Questao extends Model
     {
         return $this->belongsTo(Disciplina::class);
     }
+
+    public function simulados()
+    {
+        return $this->belongsToMany(Simulado::class, 'simulado_questao')
+            ->withPivot('ordem')
+            ->withTimestamps();
+    }
 }

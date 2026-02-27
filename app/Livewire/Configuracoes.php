@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use Livewire\Component;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 
@@ -12,6 +13,7 @@ class Configuracoes extends Component
     public $email;
     public $password;
     public $password_confirmation;
+    public $delete_password;
 
     public function mount()
     {
@@ -52,5 +54,29 @@ class Configuracoes extends Component
     public function render()
     {
         return view('livewire.configuracoes');
+    }
+
+    public function deleteAccount()
+    {
+        $this->validate([
+            'delete_password' => ['required', 'string'],
+        ]);
+
+        $user = auth()->user();
+
+        if (! Hash::check($this->delete_password, $user->password)) {
+            $this->addError('delete_password', 'Senha incorreta.');
+            return;
+        }
+
+        Auth::logout();
+        $user->delete();
+
+        if (request()->hasSession()) {
+            request()->session()->invalidate();
+            request()->session()->regenerateToken();
+        }
+
+        return redirect()->route('login.auth')->with('notify', 'Conta excluida com sucesso.');
     }
 }

@@ -32,7 +32,7 @@ class Register extends Component
 
         event(new Registered($user));
 
-        return redirect()->route('verification.notice');
+        return redirect()->route('verification.notice')->with('notify', 'Cadastro realizado com sucesso!');
     }
 
     #[Layout('layouts.auth')]

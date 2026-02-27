@@ -26,5 +26,6 @@ class ListaCadernos extends Component
             ->findOrFail($id);
 
         $caderno->delete();
+        $this->dispatch('notify', message: 'Caderno excluido com sucesso!');
     }
 }

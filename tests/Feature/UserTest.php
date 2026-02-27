@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Livewire\Auth\Login;
 use App\Livewire\Auth\Register;
+use App\Livewire\Configuracoes;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
@@ -117,6 +118,26 @@ class UserTest extends TestCase
             ->assertRedirect(route('dashboard.index'));
 
         $this->assertAuthenticated();
+    }
+
+    public function test_usuario_pode_excluir_a_propria_conta()
+    {
+        $user = User::factory()->create([
+            'password' => Hash::make('12345678'),
+        ]);
+
+        $this->actingAs($user);
+
+        Livewire::test(Configuracoes::class)
+            ->set('delete_password', '12345678')
+            ->call('deleteAccount')
+            ->assertRedirect(route('login.auth'));
+
+        $this->assertDatabaseMissing('users', [
+            'id' => $user->id,
+        ]);
+
+        $this->assertGuest();
     }
 
     private function usuarioPadrao(){
