@@ -7,6 +7,9 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\VerifyEmailMail;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -55,7 +58,28 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     public function sendPasswordResetNotification($token)
-{
-    $this->notify(new ResetPasswordNotification($token));
-}
+    {
+        $this->notify(new ResetPasswordNotification($token));
+    }
+
+    public function sendEmailVerificationNotification()
+    {
+        $url = URL::temporarySignedRoute(
+            'verification.verify',
+            now()->addMinutes(60),
+            [
+                'id' => $this->id,
+                'hash' => sha1($this->email),
+            ]
+        );
+
+        Mail::to($this->email)->send(
+            new VerifyEmailMail($url, $this->name)
+        );
+    }
+
+    public function cadernos()
+    {
+        return $this->hasMany(CadernoEstudo::class);
+    }
 }

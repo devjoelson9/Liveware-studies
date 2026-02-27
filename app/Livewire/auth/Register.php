@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Auth;
 
 use App\Models\User;
 use Livewire\Attributes\Layout;
@@ -32,7 +32,7 @@ class Register extends Component
 
         event(new Registered($user));
 
-        return redirect()->route('verification.notice');
+        return redirect()->route('verification.notice')->with('notify', 'Cadastro realizado com sucesso!');
     }
 
     #[Layout('layouts.auth')]

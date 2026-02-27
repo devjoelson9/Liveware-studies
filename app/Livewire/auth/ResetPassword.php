@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Auth;
 
 use App\Models\User;
 use Illuminate\Auth\Events\PasswordReset;
@@ -53,7 +53,7 @@ class ResetPassword extends Component
         );
 
         return $status === Password::PasswordReset
-            ? redirect()->route('login.auth')->with('status', __($status))
+            ? redirect()->route('login.auth')->with('notify', 'Senha redefinida com sucesso!')
             : back()->withErrors(['email' => [__($status)]]);
     }
 }

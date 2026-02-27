@@ -9,14 +9,17 @@ class Dashboard extends Component
 {
     public function render()
     {
-        // Exemplo: Contagem de tarefas por status
+        $user = auth()->user();
         $stats = [
-            'concluidas' => Tarefa::where('is_completed', true)->count(),
-            'pendentes' => Tarefa::where('is_completed', false)->count(),
+            'concluidas' => Tarefa::where('user_id', $user->id)
+            ->where('is_completed', true)->count(),
+
+            'pendentes' => Tarefa::where('user_id', $user->id)
+            ->where('is_completed', false)->count(),
         ];
 
-        // Exemplo: Tarefas criadas nos últimos 7 dias (para o gráfico de linha)
-        $historico = Tarefa::select(DB::raw('DATE(created_at) as data'), DB::raw('count(*) as total'))
+        $historico = Tarefa::where('user_id', $user->id)
+        ->select(DB::raw('DATE(created_at) as data'), DB::raw('count(*) as total'))
             ->groupBy('data')
             ->orderBy('data', 'asc')
             ->take(7)

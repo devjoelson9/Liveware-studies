@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Auth;
 
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -40,7 +40,7 @@ class Login extends Component
         ])) {
             return redirect()
                 ->route('dashboard.index')
-                ->with('toast', 'Login realizado com sucesso!');
+                ->with('notify', 'Login realizado com sucesso!');
         }
 
         $this->addError('email', 'Credenciais inválidas.');

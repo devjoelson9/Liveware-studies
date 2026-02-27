@@ -1,8 +1,6 @@
 <div class="min-h-screen flex items-center justify-center bg-gray-100 px-4">
 
     <div class="w-full max-w-md bg-white shadow-xl rounded-2xl p-8 space-y-6">
-
-        {{-- Título --}}
         <div class="text-center space-y-2">
             <h2 class="text-2xl font-bold text-gray-800">
                 Esqueceu sua senha?
@@ -12,17 +10,13 @@
             </p>
         </div>
 
-        {{-- Status --}}
         @if (session('status'))
             <div class="bg-green-100 text-green-700 text-sm p-3 rounded-lg">
                 {{ session('status') }}
             </div>
         @endif
 
-        {{-- Formulário --}}
         <form wire:submit.prevent="forgot" class="space-y-5">
-
-            {{-- Email --}}
             <div class="space-y-1">
                 <label for="email" class="text-sm font-medium text-gray-700">
                     E-mail
@@ -38,7 +32,6 @@
                 @enderror
             </div>
 
-            {{-- Botão --}}
             <button
                 type="submit"
                 class="w-full bg-indigo-600 hover:bg-indigo-700 transition duration-200 text-white font-medium py-2.5 rounded-xl shadow-md"
@@ -48,7 +41,6 @@
 
         </form>
 
-        {{-- Link voltar --}}
         <div class="text-center">
             <a href="{{ route('login.auth') }}"
                class="text-sm text-indigo-600 hover:underline">
